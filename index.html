@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App Pomodoro</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Pomodoro Timer</h1>
+      <div class="content">
+        <div class="left-side">
+          <div class="circle-timer">
+            <svg
+              width="250"
+              height="250"
+              viewBox="0 0 100 100"
+              class="progress-ring"
+            >
+              <circle
+                class="progress-ring__circle"
+                stroke="green"
+                stroke-width="4"
+                fill="transparent"
+                r="48"
+                cx="50"
+                cy="50"
+              />
+            </svg>
+            <div class="timer">
+              <span id="minutes">25</span>:<span id="seconds">00</span>
+            </div>
+          </div>
+          <div class="status">
+            <p id="status-message">Pronto para começar!</p>
+            <p id="motivational-message">Você consegue!</p>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="controls">
+            <button id="start">Iniciar</button>
+            <button id="pause">Pausar</button>
+            <button id="reset">Resetar</button>
+            <button id="settings">Configurar Tempos</button>
+          </div>
+          <div class="history">
+            <p>Ciclos completos: <span id="completed-cycles">0</span></p>
+          </div>
+          <div class="extra-controls">
+            <button id="toggle-mode">Modo Escuro</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal para configurar tempos -->
+      <div id="settings-modal" class="modal">
+        <div class="modal-content">
+          <h2>Configurar Tempos</h2>
+          <form>
+            <div class="form-row">
+              <label for="focus-time">Tempo de Foco (min):</label>
+              <select id="focus-time">
+                <option value="25">25 minutos</option>
+                <option value="30">30 minutos</option>
+                <option value="45">45 minutos</option>
+                <option value="60">60 minutos</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="short-break">Pausa Curta (min):</label>
+              <select id="short-break">
+                <option value="5">5 minutos</option>
+                <option value="10">10 minutos</option>
+                <option value="15">15 minutos</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="long-break">Pausa Longa (min):</label>
+              <select id="long-break">
+                <option value="15">15 minutos</option>
+                <option value="20">20 minutos</option>
+                <option value="30">30 minutos</option>
+              </select>
+            </div>
+            <div class="buttons-container">
+              <button type="button" id="save-settings">Salvar</button>
+              <button type="button" class="close-modal">Fechar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Áudios -->
+      <audio
+        id="start-audio"
+        src="https://soundbible.com/mp3/Page_Turn-Mark_DiAngelo-1304638748.mp3"
+      ></audio>
+      <audio
+        id="pause-audio"
+        src="https://soundbible.com/mp3/Click-SoundBible.com-1387633738.mp3"
+      ></audio>
+      <audio id="end-time-audio" src="sounds/alarm.mp3"></audio>
+
+      <script src="script.js"></script>
+    </div>
+  </body>
+</html>
