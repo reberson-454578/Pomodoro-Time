@@ -1,0 +1,157 @@
+/* Estilos para telas menores */
+@media (max-width: 768px) {
+  /* Container */
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  /* Título */
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  /* Estrutura de layout */
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left-side,
+  .right-side {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  /* Temporizador */
+  .circle {
+    width: 180px;
+    height: 180px;
+    font-size: 2.5rem;
+  }
+
+  /* Botões */
+  .controls button {
+    padding: 12px 30px;
+    font-size: 0.9rem;
+    margin: 8px;
+    width: 90%; /* Ajusta o tamanho dos botões para ocupar mais espaço */
+  }
+
+  #settings {
+    padding: 12px 30px;
+    width: 90%;
+    font-size: 1rem;
+  }
+
+  /* Modo escuro */
+  #toggle-mode {
+    width: 90%;
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+
+  /* Motivational message */
+  #motivational-message {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  /* Ciclos completos */
+  .history {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Container */
+  .container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  /* Título */
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+
+  /* Temporizador */
+  .circle {
+    width: 150px;
+    height: 150px;
+    font-size: 2rem;
+  }
+
+  /* Botões */
+  .controls button {
+    padding: 10px 25px;
+    font-size: 0.8rem;
+    width: 100%;
+  }
+
+  #settings {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  /* Modo escuro */
+  #toggle-mode {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  /* Motivational message */
+  #motivational-message {
+    font-size: 0.9rem;
+  }
+
+  /* Ciclos completos */
+  .history {
+    font-size: 0.9rem;
+  }
+}
+
+/* Responsividade para o Modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%; /* Ajusta a largura do modal para caber melhor em telas menores */
+  }
+
+  .form-row label {
+    width: 130px; /* Ajuste da largura do label para telas menores */
+  }
+
+  .form-row select {
+    width: 100px; /* Ajuste da largura do select para telas menores */
+  }
+
+  .buttons-container button {
+    width: 100%; /* Os botões ocupam toda a largura */
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%;
+  }
+
+  .form-row label {
+    width: 120px; /* Ajuste da largura do label para telas muito pequenas */
+  }
+
+  .form-row select {
+    width: 90px;
+  }
+
+  .buttons-container button {
+    padding: 8px;
+  }
+}
