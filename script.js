@@ -5,6 +5,7 @@ let isRunning = false;
 let isPaused = false;
 let isBreak = false;
 let timer;
+let startTime; // Para armazenar o horário de início
 let remainingTime = pomodoroTime; // Tempo inicial será o do Pomodoro
 let cycles = 0;
 let completedCycles = 0;
@@ -38,6 +39,18 @@ const shortBreakInput = document.getElementById("short-break");
 const longBreakInput = document.getElementById("long-break");
 const clickSound = document.getElementById("pause-audio");
 
+// Verifica se o navegador tem permissão para notificações
+if (Notification.permission !== "granted") {
+  Notification.requestPermission();
+}
+
+// Função para notificar o usuário quando o tempo acabar
+function notifyUser(message) {
+  if (Notification.permission === "granted") {
+    new Notification(message);
+  }
+}
+
 // Função para atualizar o display do tempo (minutos e segundos)
 const updateDisplay = (time) => {
   const minutes = Math.floor(time / 60);
@@ -70,6 +83,33 @@ allButtons.forEach((button) => {
   button.addEventListener("click", playClickSound);
 });
 
+// Função para salvar o tempo restante no localStorage
+function saveRemainingTime() {
+  const now = new Date().getTime();
+  localStorage.setItem("remainingTime", remainingTime);
+  localStorage.setItem("startTime", now);
+  localStorage.setItem("isBreak", isBreak);
+}
+
+// Função para restaurar o tempo restante do localStorage
+function restoreRemainingTime() {
+  const savedTime = localStorage.getItem("remainingTime");
+  const savedStart = localStorage.getItem("startTime");
+  const savedBreak = localStorage.getItem("isBreak");
+
+  if (savedTime && savedStart) {
+    const elapsedTime = Math.floor((new Date().getTime() - savedStart) / 1000);
+    remainingTime = savedTime - elapsedTime;
+    isBreak = savedBreak === "true";
+
+    if (remainingTime <= 0) {
+      remainingTime = 0;
+    }
+
+    updateDisplay(remainingTime);
+  }
+}
+
 // Função para atualizar o círculo de progresso
 const circle = document.querySelector(".progress-ring__circle");
 const radius = circle.r.baseVal.value;
@@ -88,17 +128,18 @@ function startTimer() {
   if (!isRunning) {
     isRunning = true;
     isPaused = false;
+    startTime = new Date().getTime(); // Armazena o horário de início
     timer = setInterval(() => {
       if (remainingTime <= 0) {
         clearInterval(timer);
         alertSound.play();
+        notifyUser(isBreak ? "Intervalo terminado!" : "Foco terminado!");
 
         if (!isBreak) {
           cycles++;
           completedCycles++;
           completedCyclesDisplay.textContent = completedCycles;
 
-          // Alterna para o intervalo (curto ou longo)
           if (cycles % 4 === 0) {
             statusMessage.textContent = "Hora do intervalo longo!";
             isBreak = true;
@@ -109,23 +150,20 @@ function startTimer() {
             remainingTime = breakTime;
           }
         } else {
-          // Alterna de volta para o período de foco
           statusMessage.textContent = "De volta ao trabalho!";
           isBreak = false;
           remainingTime = pomodoroTime;
         }
 
-        updateDisplay(remainingTime); // Atualiza o display ao mudar para intervalo/trabalho
-        setCircleProgress(100); // Reinicia o círculo no início do novo período
-
-        // Redefine o estado do temporizador para permitir um novo ciclo
+        updateDisplay(remainingTime);
+        setCircleProgress(100);
         isRunning = false;
-        pauseButton.textContent = "Pausar"; // Reseta o botão de pausa para seu estado original
+        pauseButton.textContent = "Pausar";
       } else {
         remainingTime--;
-        updateDisplay(remainingTime); // Atualiza o display durante o countdown
+        updateDisplay(remainingTime);
+        saveRemainingTime(); // Salva o tempo restante sempre que ele é atualizado
 
-        // Atualiza o progresso do círculo
         const totalTime = isBreak
           ? cycles % 4 === 0
             ? longBreakTime
@@ -144,6 +182,9 @@ function startTimer() {
       ];
   }
 }
+
+// Quando a página carrega, restaurar o tempo restante
+window.addEventListener("load", restoreRemainingTime);
 
 // Função para pausar e retomar o timer
 pauseButton.addEventListener("click", () => {
@@ -167,8 +208,9 @@ resetButton.addEventListener("click", () => {
   isRunning = false;
   isPaused = false;
   isBreak = false;
-  remainingTime = pomodoroTime; // Reseta para o tempo de Pomodoro
-  updateDisplay(remainingTime); // Atualiza o display ao resetar
+  remainingTime = pomodoroTime;
+  updateDisplay(remainingTime);
+  localStorage.removeItem("remainingTime"); // Remove o tempo do localStorage ao resetar
   pauseButton.textContent = "Pausar";
   statusMessage.textContent = "Pronto para começar!";
   completedCyclesDisplay.textContent = completedCycles;
