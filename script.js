@@ -1,12 +1,12 @@
-let pomodoroTime = 25 * 60;
-let breakTime = 5 * 60;
-let longBreakTime = 15 * 60;
+let pomodoroTime = 25 * 60; // 25 minutos padrão
+let breakTime = 5 * 60; // 5 minutos de pausa curta padrão
+let longBreakTime = 15 * 60; // 15 minutos de pausa longa padrão
 let isRunning = false;
 let isPaused = false;
 let isBreak = false;
 let timer;
-let startTime;
-let remainingTime = pomodoroTime;
+let startTime; // Para armazenar o horário de início
+let remainingTime = pomodoroTime; // Tempo inicial será o do Pomodoro
 let cycles = 0;
 let completedCycles = 0;
 
@@ -39,43 +39,39 @@ const shortBreakInput = document.getElementById("short-break");
 const longBreakInput = document.getElementById("long-break");
 const clickSound = document.getElementById("pause-audio");
 
+// Verifica se o navegador tem permissão para notificações
 if (Notification.permission !== "granted") {
   Notification.requestPermission();
 }
 
+// Função para notificar o usuário quando o tempo acabar
 function notifyUser(message) {
   if (Notification.permission === "granted") {
     new Notification(message);
   }
 }
 
-const updateDisplay = (time) => {
-  const minutes = Math.floor(time / 60);
-  const seconds = time % 60;
-  minutesDisplay.textContent = minutes < 10 ? "0" + minutes : minutes;
-  secondsDisplay.textContent = seconds < 10 ? "0" + seconds : seconds;
-};
+// Função para adicionar eventos de clique e toque
+function addClickAndTouchEvent(element, callback) {
+  element.addEventListener("click", callback);
+  element.addEventListener("touchstart", callback); // Suporte para toque no iPhone
+}
 
-saveSettingsButton.addEventListener("click", () => {
-  pomodoroTime = focusInput.value * 60;
-  breakTime = shortBreakInput.value * 60;
-  longBreakTime = longBreakInput.value * 60;
-  remainingTime = pomodoroTime;
-  updateDisplay(remainingTime);
-  settingsModal.style.display = "none";
-});
-
+// Função para tocar o som de clique e reiniciar se necessário
 function playClickSound() {
-  clickSound.currentTime = 0;
+  clickSound.currentTime = 0; // Reinicia o áudio desde o início
   clickSound.play();
 }
 
+// Selecionando todos os botões na página
 const allButtons = document.querySelectorAll("button");
 
+// Adicionando o evento de clique e toque a todos os botões para tocar o som
 allButtons.forEach((button) => {
-  button.addEventListener("click", playClickSound);
+  addClickAndTouchEvent(button, playClickSound);
 });
 
+// Função para salvar o tempo restante no localStorage
 function saveRemainingTime() {
   const now = new Date().getTime();
   localStorage.setItem("remainingTime", remainingTime);
@@ -83,6 +79,7 @@ function saveRemainingTime() {
   localStorage.setItem("isBreak", isBreak);
 }
 
+// Função para restaurar o tempo restante do localStorage
 function restoreRemainingTime() {
   const savedTime = localStorage.getItem("remainingTime");
   const savedStart = localStorage.getItem("startTime");
@@ -101,6 +98,25 @@ function restoreRemainingTime() {
   }
 }
 
+// Função para atualizar o display do tempo (minutos e segundos)
+const updateDisplay = (time) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  minutesDisplay.textContent = minutes < 10 ? "0" + minutes : minutes;
+  secondsDisplay.textContent = seconds < 10 ? "0" + seconds : seconds;
+};
+
+// Atualiza o tempo do display imediatamente após salvar as configurações
+saveSettingsButton.addEventListener("click", () => {
+  pomodoroTime = focusInput.value * 60;
+  breakTime = shortBreakInput.value * 60;
+  longBreakTime = longBreakInput.value * 60;
+  remainingTime = pomodoroTime; // Atualiza o remainingTime para o novo valor de Pomodoro
+  updateDisplay(remainingTime); // Atualiza o display imediatamente
+  settingsModal.style.display = "none"; // Fecha o modal
+});
+
+// Função para atualizar o círculo de progresso
 const circle = document.querySelector(".progress-ring__circle");
 const radius = circle.r.baseVal.value;
 const circumference = 2 * Math.PI * radius;
@@ -113,11 +129,12 @@ function setCircleProgress(percent) {
   circle.style.strokeDashoffset = offset;
 }
 
+// Função para iniciar o timer
 function startTimer() {
   if (!isRunning) {
     isRunning = true;
     isPaused = false;
-    startTime = new Date().getTime();
+    startTime = new Date().getTime(); // Armazena o horário de início
     timer = setInterval(() => {
       if (remainingTime <= 0) {
         clearInterval(timer);
@@ -151,7 +168,7 @@ function startTimer() {
       } else {
         remainingTime--;
         updateDisplay(remainingTime);
-        saveRemainingTime();
+        saveRemainingTime(); // Salva o tempo restante sempre que ele é atualizado
 
         const totalTime = isBreak
           ? cycles % 4 === 0
@@ -172,23 +189,26 @@ function startTimer() {
   }
 }
 
+// Quando a página carrega, restaurar o tempo restante
 window.addEventListener("load", restoreRemainingTime);
 
+// Função para pausar e retomar o timer
 pauseButton.addEventListener("click", () => {
   if (isRunning) {
-    clearInterval(timer);
+    clearInterval(timer); // Pausa o timer
     isRunning = false;
     isPaused = true;
     pauseAudio.play();
     pauseButton.textContent = "Retomar";
     statusMessage.textContent = "Pausado!";
   } else if (isPaused) {
-    startTimer();
+    startTimer(); // Retoma o timer de onde parou
     pauseButton.textContent = "Pausar";
     statusMessage.textContent = isBreak ? "Intervalo!" : "Foco!";
   }
 });
 
+// Função para resetar o timer
 resetButton.addEventListener("click", () => {
   clearInterval(timer);
   isRunning = false;
@@ -196,38 +216,35 @@ resetButton.addEventListener("click", () => {
   isBreak = false;
   remainingTime = pomodoroTime;
   updateDisplay(remainingTime);
-  localStorage.removeItem("remainingTime");
+  localStorage.removeItem("remainingTime"); // Remove o tempo do localStorage ao resetar
   pauseButton.textContent = "Pausar";
   statusMessage.textContent = "Pronto para começar!";
   completedCyclesDisplay.textContent = completedCycles;
 });
 
+// Função para abrir o modal de configurações
 settingsButton.addEventListener("click", () => {
   settingsModal.style.display = "block";
 });
 
+// Função para fechar o modal de configurações
 closeModal.addEventListener("click", () => {
   settingsModal.style.display = "none";
 });
 
+// Fecha o modal se clicar fora dele
 window.addEventListener("click", (event) => {
   if (event.target == settingsModal) {
     settingsModal.style.display = "none";
   }
 });
 
+// Função para alternar entre modos claro e escuro
 toggleModeButton.addEventListener("click", () => {
   document.body.classList.toggle("light-mode");
-
-  const modeText = document.body.classList.contains("light-mode")
-    ? "Modo Dark"
-    : "Modo Light";
-
-  toggleModeButton.querySelector("span").textContent = modeText;
-  toggleModeButton.querySelector(".fa-sun").classList.toggle("active");
-  toggleModeButton.querySelector(".fa-moon").classList.toggle("active");
 });
 
+// Inicia o timer ao clicar no botão "Iniciar"
 startButton.addEventListener("click", () => {
   if (!isRunning && !isPaused) {
     startTimer();
