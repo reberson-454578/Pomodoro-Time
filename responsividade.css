@@ -1,89 +1,95 @@
-/* Estilos para telas menores */
-@media (max-width: 768px) {
-  /* Container */
+@media screen and (max-width: 768px) {
   .container {
     width: 90%;
     padding: 20px;
   }
 
-  /* Título */
   h1 {
     font-size: 2rem;
-    margin-bottom: 20px;
   }
 
-  /* Estrutura de layout */
   .content {
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centraliza o conteúdo */
   }
 
-  .left-side,
-  .right-side {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-
-  /* Temporizador */
-  .circle {
+  .circle-timer {
     width: 180px;
     height: 180px;
+  }
+
+  .progress-ring__circle {
+    stroke-width: 6;
+  }
+
+  .timer {
     font-size: 2.5rem;
   }
 
-  /* Botões */
-  .controls button {
-    padding: 12px 30px;
+  .controls {
+    text-align: center;
+  }
+
+  .controls button,
+  .extra-controls button {
     font-size: 0.9rem;
-    margin: 8px;
-    width: 90%; /* Ajusta o tamanho dos botões para ocupar mais espaço */
+    padding: 12px 30px;
+    margin: 8px; /* Reduz o espaçamento entre os botões */
   }
 
   #settings {
-    padding: 12px 30px;
-    width: 90%;
-    font-size: 1rem;
+    width: 60%;
+    font-size: 0.8rem;
+    padding: 10px 10px;
   }
 
-  /* Modo escuro */
-  #toggle-mode {
-    width: 90%;
-    padding: 12px 30px;
-    font-size: 1rem;
-  }
-
-  /* Motivational message */
-  #motivational-message {
-    font-size: 1rem;
-    text-align: center;
-    margin-top: 10px;
-  }
-
-  /* Ciclos completos */
   .history {
     font-size: 1rem;
   }
+
+  .modal-content {
+    width: 80%;
+    padding: 20px;
+  }
+
+  .form-row label {
+    width: 120px;
+  }
+
+  .form-row select {
+    width: 100px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
+  }
 }
 
-@media (max-width: 480px) {
-  /* Container */
+@media screen and (max-width: 480px) {
   .container {
     width: 95%;
     padding: 15px;
   }
 
-  /* Título */
   h1 {
     font-size: 1.8rem;
-    margin-bottom: 15px;
   }
 
-  /* Temporizador */
-  .circle {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .circle-timer {
     width: 150px;
     height: 150px;
+  }
+
+  .progress-ring__circle {
+    stroke-width: 4;
+  }
+
+  .timer {
     font-size: 2rem;
   }
 
@@ -91,71 +97,51 @@
     text-align: center;
   }
 
-  /* Botões */
-  .controls button {
-    padding: 10px 25px;
+  .controls button,
+  .extra-controls button {
     font-size: 0.8rem;
-    width: 60%;
+    padding: 10px 20px;
+    margin: 6px; /* Reduz o espaçamento entre os botões */
   }
 
   #settings {
-    padding: 10px 25px;
-    font-size: 0.9rem;
     width: 60%;
+    font-size: 0.8rem;
+    padding: 10px 10px;
   }
 
-  /* Modo escuro */
-  #toggle-mode {
-    padding: 10px 25px;
-    font-size: 0.9rem;
-    width: 100%;
-  }
-
-  /* Motivational message */
-  #motivational-message {
-    font-size: 0.9rem;
-  }
-
-  /* Ciclos completos */
   .history {
     font-size: 0.9rem;
   }
-}
 
-/* Responsividade para o Modal */
-@media (max-width: 768px) {
   .modal-content {
-    width: 90%; /* Ajusta a largura do modal para caber melhor em telas menores */
+    width: 90%;
+  }
+
+  .modal-content h2 {
+    font-size: 1.4rem;
   }
 
   .form-row label {
-    width: 130px; /* Ajuste da largura do label para telas menores */
-  }
-
-  .form-row select {
-    width: 100px; /* Ajuste da largura do select para telas menores */
-  }
-
-  .buttons-container button {
-    width: 100%; /* Os botões ocupam toda a largura */
-    padding: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .modal-content {
-    width: 95%;
-  }
-
-  .form-row label {
-    width: 120px; /* Ajuste da largura do label para telas muito pequenas */
+    font-size: 0.8rem;
+    width: 100px;
   }
 
   .form-row select {
     width: 90px;
+    padding: 6px;
   }
 
-  .buttons-container button {
-    padding: 8px;
+  /* Ajusta o botão do modo escuro */
+  #toggle-mode {
+    font-size: 0.9rem;
+    padding: 10px 25px;
+    margin: 8px 0;
+  }
+
+  /* Ajusta os ícones no modo escuro para um tamanho menor */
+  #toggle-mode i {
+    font-size: 1.2rem;
+    margin-right: 8px;
   }
 }

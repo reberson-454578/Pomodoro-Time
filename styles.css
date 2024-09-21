@@ -137,30 +137,44 @@ h1 {
 }
 
 #toggle-mode {
-  background-color: #4a4a4a; /* Fundo mais elegante */
-  color: #fff; /* Texto branco para contraste */
-  font-size: 1rem; /* Ajuste de tamanho da fonte */
-  padding: 12px 30px; /* Tamanho do botão */
+  background-color: #4a4a4a;
+  color: #fff;
+  font-size: 1rem;
+  padding: 12px 30px;
   margin-top: 10px;
   border: none;
-  border-radius: 8px; /* Bordas arredondadas */
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s, color 0.3s;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-#toggle-mode .timer {
-  color: #2a2a33;
+#toggle-mode i {
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+body.light-mode #toggle-mode .fa-sun {
+  opacity: 1;
+  transform: rotate(360deg);
+}
+
+body:not(.light-mode) #toggle-mode .fa-moon {
+  opacity: 1;
+  transform: rotate(-360deg);
 }
 
 #toggle-mode:hover {
-  background-color: #5a5a5a; /* Fundo mais claro ao passar o mouse */
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.3); /* Sombra maior ao passar o mouse */
+  background-color: #5a5a5a;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 #toggle-mode:active {
-  transform: translateY(2px); /* Leve rebaixamento ao clicar */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Menor sombra ao clicar */
+  transform: translateY(2px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .controls button:hover {
@@ -193,7 +207,6 @@ h1 {
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Modal refinado e centralizado com Flexbox */
 .modal {
   display: none;
   position: fixed;
@@ -231,33 +244,32 @@ h1 {
   color: #4caf50;
 }
 
-/* Form no modal */
 .modal-content form {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Espaçamento entre as linhas */
+  gap: 20px;
   width: 100%;
 }
 
 .form-row {
   display: flex;
-  justify-content: flex-start; /* Mantém os itens alinhados à esquerda */
+  justify-content: flex-start;
   align-items: center;
-  gap: 20px; /* Espaçamento entre os elementos na mesma linha */
+  gap: 20px;
 }
 
 .form-row label {
   font-size: 0.9rem;
   color: #bbb;
   text-align: right;
-  width: 170px; /* Defina uma largura fixa para as labels */
-  padding-right: 6px; /* Espaçamento entre o label e o input */
+  width: 170px;
+  padding-right: 6px;
   margin-left: 25px;
 }
 
 .form-row select {
   padding: 8px;
-  width: 120px; /* Defina a largura fixa dos inputs */
+  width: 120px;
   border-radius: 6px;
   border: 2px solid #555;
   background-color: #fff;
@@ -273,7 +285,6 @@ h1 {
   box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
 }
 
-/* Botões no modal */
 .buttons-container {
   display: flex;
   justify-content: center;
@@ -344,41 +355,37 @@ body.light-mode .status {
   font-size: 3.5rem;
   font-weight: 500;
   color: #fff;
-  width: 100%; /* Garante que o texto ocupe o espaço total */
-  height: 100%; /* Garante que o texto ocupe o espaço total */
+  width: 100%;
+  height: 100%;
   margin-top: 10px;
 }
 
-/* Animação de entrada elegante */
 @keyframes fadeInSlideUp {
   0% {
     opacity: 0;
-    transform: translateY(20px); /* Move os elementos para baixo */
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0); /* Elementos voltam para a posição normal */
+    transform: translateY(0);
   }
 }
 
-/* Animação para o título */
 h1 {
-  opacity: 0; /* Inicialmente invisível */
-  animation: fadeInSlideUp 1s ease-in-out forwards; /* Animação de entrada */
-  animation-delay: 0.2s; /* Pequeno atraso para criar uma entrada gradual */
+  opacity: 0;
+  animation: fadeInSlideUp 1s ease-in-out forwards;
+  animation-delay: 0.2s;
 }
 
-/* Animação para o temporizador */
 .circle-timer {
-  opacity: 0; /* Inicialmente invisível */
+  opacity: 0;
   animation: fadeInSlideUp 1.2s ease-in-out forwards;
-  animation-delay: 0.4s; /* Atraso para criar uma entrada gradual */
+  animation-delay: 0.4s;
 }
 
-/* Animação para os botões */
 .controls button,
 .extra-controls button {
-  opacity: 0; /* Inicialmente invisível */
+  opacity: 0;
   animation: fadeInSlideUp 1.4s ease-in-out forwards;
-  animation-delay: 0.6s; /* Atraso para criar uma entrada gradual */
+  animation-delay: 0.6s;
 }
