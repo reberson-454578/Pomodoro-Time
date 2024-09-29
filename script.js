@@ -9,6 +9,7 @@ let startTime; // Para armazenar o horário de início
 let remainingTime = pomodoroTime; // Tempo inicial será o do Pomodoro
 let cycles = 0;
 let completedCycles = 0;
+let lastTimeChecked; // Armazenar o último timestamp para cálculo de tempo decorrido
 
 const motivationalMessages = [
   "Você consegue!",
@@ -134,8 +135,15 @@ function startTimer() {
   if (!isRunning) {
     isRunning = true;
     isPaused = false;
-    startTime = new Date().getTime(); // Armazena o horário de início
+    lastTimeChecked = new Date().getTime();
+
     timer = setInterval(() => {
+      const currentTime = new Date().getTime();
+      const elapsedTime = (currentTime - lastTimeChecked) / 1000; // Usa o tempo real para ajustar o cronômetro
+      lastTimeChecked = currentTime;
+
+      remainingTime -= elapsedTime; // Subtrai o tempo exato que passou
+
       if (remainingTime <= 0) {
         clearInterval(timer);
         alertSound.play();
@@ -166,8 +174,7 @@ function startTimer() {
         isRunning = false;
         pauseButton.textContent = "Pausar";
       } else {
-        remainingTime--;
-        updateDisplay(remainingTime);
+        updateDisplay(Math.floor(remainingTime)); // Atualiza o cronômetro com o valor arredondado
         saveRemainingTime(); // Salva o tempo restante sempre que ele é atualizado
 
         const totalTime = isBreak
